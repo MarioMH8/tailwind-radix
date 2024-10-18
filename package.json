@@ -1,0 +1,69 @@
+{
+	"name": "talwind-radix-colors",
+	"version": "0.0.0",
+	"author": {
+		"name": "Yuwang Cai",
+		"email": "mariomh8@gmail.com",
+		"url": "https://mariomh.com"
+	},
+	"description": "Bring Radix UI's color system to Tailwind CSS.",
+	"keywords": [
+		"tailwindcss",
+		"plugin",
+		"radix",
+		"color",
+		"palette",
+		"ui",
+		"design"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mariomh8/tailwind-radix-colors.git"
+	},
+	"homepage": "https://tailwind-radix-colors.mariomh.com",
+	"bugs": "https://github.com/mariomh8/tailwind-radix-colors/issues",
+	"license": "MIT",
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			},
+			"default": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"build": "tsup",
+		"lint": "eslint .",
+		"lint:fix": "eslint --fix .",
+		"prepublishOnly": "tsup",
+		"test": "bun test",
+		"typecheck": "tsc --noEmit"
+	},
+	"peerDependencies": {
+		"tailwindcss": ">=3.0.0"
+	},
+	"dependencies": {
+		"@radix-ui/colors": "^3.0.0"
+	},
+	"devDependencies": {
+		"@hexadrop/eslint-config": "0.0.1-beta.20",
+		"@hexadrop/tsconfig": "0.0.5",
+		"eslint": "9.12.0",
+		"postcss": "8.4.47",
+		"prettier": "3.3.3",
+		"tsup": "8.3.0",
+		"typescript": "5.6.3"
+	}
+}
