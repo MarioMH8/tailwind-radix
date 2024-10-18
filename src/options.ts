@@ -75,14 +75,6 @@ interface TailwindRadixColorsOptions {
 	 */
 	include?: string[] | undefined;
 	/**
-	 * Define the primary color.
-	 *
-	 * @default undefined
-	 *
-	 * @see https://tailwind-radix-colors.mariomh.com/options#primary
-	 */
-	primary?: string;
-	/**
 	 * A priority strategy to resolve color name conflicts between Radix and
 	 * Tailwind.
 	 *
