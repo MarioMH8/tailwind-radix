@@ -1,11 +1,6 @@
 {
-	"name": "talwind-radix-colors",
+	"name": "@hexadrop/talwind-radix-colors",
 	"version": "0.0.0",
-	"author": {
-		"name": "Yuwang Cai",
-		"email": "mariomh8@gmail.com",
-		"url": "https://mariomh.com"
-	},
 	"description": "Bring Radix UI's color system to Tailwind CSS.",
 	"keywords": [
 		"tailwindcss",
@@ -18,10 +13,10 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/mariomh8/tailwind-radix-colors.git"
+		"url": "https://github.com/hexadrop/tailwind-radix-colors.git"
 	},
 	"homepage": "https://tailwind-radix-colors.mariomh.com",
-	"bugs": "https://github.com/mariomh8/tailwind-radix-colors/issues",
+	"bugs": "https://github.com/hexadrop/tailwind-radix-colors/issues",
 	"license": "MIT",
 	"type": "module",
 	"files": [
@@ -45,6 +40,9 @@
 	},
 	"scripts": {
 		"build": "tsup",
+		"docs:build": "vitepress build docs",
+		"docs:dev": "vitepress dev docs",
+		"docs:preview": "vitepress preview docs",
 		"lint": "eslint .",
 		"lint:fix": "eslint --fix .",
 		"prepublishOnly": "tsup",
@@ -65,6 +63,7 @@
 		"postcss": "8.4.47",
 		"prettier": "3.3.3",
 		"tsup": "8.3.0",
-		"typescript": "5.6.3"
+		"typescript": "5.6.3",
+		"vitepress": "1.4.1"
 	}
 }

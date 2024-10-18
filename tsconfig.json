@@ -1,3 +1,9 @@
 {
-	"extends": "@hexadrop/tsconfig"
+	"extends": "@hexadrop/tsconfig",
+	"include": [
+		"spec/**/*.ts",
+		"src/**/*.ts",
+		"docs/.vitepress/config.ts",
+		"tsup.config.ts"
+	]
 }
