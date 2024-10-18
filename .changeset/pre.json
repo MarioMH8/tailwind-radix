@@ -4,5 +4,7 @@
   "initialVersions": {
     "@hexadrop/talwind-radix-colors": "0.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "brave-spies-happen"
+  ]
 }
