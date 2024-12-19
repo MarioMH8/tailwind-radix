@@ -89,6 +89,43 @@ interface TailwindRadixColorsOptions {
 	priority?: 'no-tailwind' | 'radix-first' | 'tailwind-first';
 }
 
-export type { RadixBaseColorName, TailwindRadixColorsOptions };
+interface TailwindRadixVariantsOptions {
+	/**
+	 * Whether to prefix the variant names with the color name.
+	 *
+	 * @default 'radix'
+	 */
+	variantPrefix?: boolean | string;
+}
+
+interface TailwindRadixOptions {
+	/**
+	 * Options of radix colors.
+	 *
+	 * @see https://tailwind-radix-colors.mariomh.com/options
+	 *
+	 * @default {
+	 *     aliases: {},
+	 *     disableSemantics: false,
+	 *     exclude: [],
+	 *     include: undefined,
+	 *     priority: 'no-tailwind',
+	 * }
+	 */
+	colors?: false | TailwindRadixColorsOptions;
+
+	/**
+	 * Options of radix variants.
+	 *
+	 * @see https://tailwind-radix-colors.mariomh.com/options
+	 *
+	 * @default {
+	 *     variantPrefix: 'radix'
+	 * }
+	 */
+	variants?: false | TailwindRadixVariantsOptions;
+}
+
+export type { RadixBaseColorName, TailwindRadixColorsOptions, TailwindRadixOptions, TailwindRadixVariantsOptions };
 
 export { RADIX_BASE_COLOR_NAMES };

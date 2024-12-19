@@ -4,7 +4,7 @@ import type { Config } from 'tailwindcss/types/config';
 
 import type { Color, ColorName, ColorNameComponents, Palette } from './colors';
 import { buildColorName, parseColorName } from './colors';
-import type { RadixBaseColorName, TailwindRadixColorsOptions } from './options';
+import type { RadixBaseColorName, TailwindRadixColorsOptions, TailwindRadixOptions } from './options';
 import { RADIX_BASE_COLOR_NAMES } from './options';
 
 /**
@@ -174,7 +174,11 @@ function match(a: ColorNameComponents, b: ColorNameComponents) {
  *
  * @see https://tailwindcss.com/docs/plugins#extending-the-configuration
  */
-export default function createConfig(options: TailwindRadixColorsOptions = {}): Partial<Config> {
+export default function createConfig(options: TailwindRadixOptions = {}): Partial<Config> {
+	if (options.colors === false) {
+		return {};
+	}
+
 	return {
 		theme: {
 			colors: {
@@ -183,7 +187,7 @@ export default function createConfig(options: TailwindRadixColorsOptions = {}): 
 				inherit: 'inherit',
 				transparent: 'transparent',
 				white: '#fff',
-				...resolvePalette(rawRadixPalette, tailwindPalette as unknown as Palette, options),
+				...resolvePalette(rawRadixPalette, tailwindPalette as unknown as Palette, options.colors ?? {}),
 			},
 		},
 	};

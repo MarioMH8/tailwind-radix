@@ -66,7 +66,9 @@ describe('When `priority=no-tailwind`', () => {
 
 	test('Given only `include`', () => {
 		const config = createConfig({
-			include: ['red', 'sage', 'zinc'],
+			colors: {
+				include: ['red', 'sage', 'zinc'],
+			},
 		});
 		const colors = config.theme?.colors;
 
@@ -101,7 +103,9 @@ describe('When `priority=no-tailwind`', () => {
 
 	test('Given only `exclude`', () => {
 		const config = createConfig({
-			exclude: ['red', 'sage', 'zinc'],
+			colors: {
+				exclude: ['red', 'sage', 'zinc'],
+			},
 		});
 		const colors = config.theme?.colors;
 
@@ -143,8 +147,10 @@ describe('When `priority=no-tailwind`', () => {
 
 	test('Given both `include` and `exclude`', () => {
 		const config = createConfig({
-			exclude: ['red'],
-			include: ['red', 'green', 'sage', 'zinc'],
+			colors: {
+				exclude: ['red'],
+				include: ['red', 'green', 'sage', 'zinc'],
+			},
 		});
 		const colors = config.theme?.colors;
 
@@ -188,7 +194,9 @@ describe('When `priority=no-tailwind`', () => {
 describe('When `priority=radix-first`', () => {
 	test('Given neither `include` nor `exclude`', () => {
 		const config = createConfig({
-			priority: 'radix-first',
+			colors: {
+				priority: 'radix-first',
+			},
 		});
 		const colors = config.theme?.colors;
 
@@ -221,8 +229,10 @@ describe('When `priority=radix-first`', () => {
 
 	test('Given only `include`', () => {
 		const config = createConfig({
-			include: ['red', 'sage', 'zinc'],
-			priority: 'radix-first',
+			colors: {
+				include: ['red', 'sage', 'zinc'],
+				priority: 'radix-first',
+			},
 		});
 		const colors = config.theme?.colors;
 
@@ -257,8 +267,10 @@ describe('When `priority=radix-first`', () => {
 
 	test('Given only `exclude`', () => {
 		const config = createConfig({
-			exclude: ['red', 'sage', 'zinc'],
-			priority: 'radix-first',
+			colors: {
+				exclude: ['red', 'sage', 'zinc'],
+				priority: 'radix-first',
+			},
 		});
 		const colors = config.theme?.colors;
 
@@ -300,9 +312,11 @@ describe('When `priority=radix-first`', () => {
 
 	test('Given both `include` and `exclude`', () => {
 		const config = createConfig({
-			exclude: ['red'],
-			include: ['red', 'green', 'sage', 'zinc'],
-			priority: 'radix-first',
+			colors: {
+				exclude: ['red'],
+				include: ['red', 'green', 'sage', 'zinc'],
+				priority: 'radix-first',
+			},
 		});
 		const colors = config.theme?.colors;
 
@@ -346,7 +360,9 @@ describe('When `priority=radix-first`', () => {
 describe('When `priority=tailwind-first`', () => {
 	test('Given neither `include` nor `exclude`', () => {
 		const config = createConfig({
-			priority: 'tailwind-first',
+			colors: {
+				priority: 'tailwind-first',
+			},
 		});
 		const colors = config.theme?.colors;
 
@@ -379,8 +395,10 @@ describe('When `priority=tailwind-first`', () => {
 
 	test('Given only `include`', () => {
 		const config = createConfig({
-			include: ['red', 'sage', 'zinc'],
-			priority: 'tailwind-first',
+			colors: {
+				include: ['red', 'sage', 'zinc'],
+				priority: 'tailwind-first',
+			},
 		});
 		const colors = config.theme?.colors;
 
@@ -415,8 +433,10 @@ describe('When `priority=tailwind-first`', () => {
 
 	test('Given only `exclude`', () => {
 		const config = createConfig({
-			exclude: ['red', 'sage', 'zinc'],
-			priority: 'tailwind-first',
+			colors: {
+				exclude: ['red', 'sage', 'zinc'],
+				priority: 'tailwind-first',
+			},
 		});
 		const colors = config.theme?.colors;
 
@@ -458,9 +478,11 @@ describe('When `priority=tailwind-first`', () => {
 
 	test('Given both `include` and `exclude`', () => {
 		const config = createConfig({
-			exclude: ['red'],
-			include: ['red', 'green', 'sage', 'zinc'],
-			priority: 'tailwind-first',
+			colors: {
+				exclude: ['red'],
+				include: ['red', 'green', 'sage', 'zinc'],
+				priority: 'tailwind-first',
+			},
 		});
 		const colors = config.theme?.colors;
 
@@ -504,8 +526,10 @@ describe('When `priority=tailwind-first`', () => {
 describe('Given `aliases`', () => {
 	test('Radix color names are aliased', () => {
 		const config = createConfig({
-			aliases: {
-				red: 'sun',
+			colors: {
+				aliases: {
+					red: 'sun',
+				},
 			},
 		});
 		const colors = config.theme?.colors;
@@ -522,11 +546,13 @@ describe('Given `aliases`', () => {
 
 	test('`include` respect aliases', () => {
 		const config = createConfig({
-			aliases: {
-				green: 'grass',
-				red: 'sun',
+			colors: {
+				aliases: {
+					green: 'grass',
+					red: 'sun',
+				},
+				include: ['sun', 'green'],
 			},
-			include: ['sun', 'green'],
 		});
 		const colors = config.theme?.colors;
 
@@ -545,11 +571,13 @@ describe('Given `aliases`', () => {
 
 	test('`exclude` respect aliases', () => {
 		const config = createConfig({
-			aliases: {
-				green: 'grass',
-				red: 'sun',
+			colors: {
+				aliases: {
+					green: 'grass',
+					red: 'sun',
+				},
+				exclude: ['sun', 'green'],
 			},
-			exclude: ['sun', 'green'],
 		});
 		const colors = config.theme?.colors;
 

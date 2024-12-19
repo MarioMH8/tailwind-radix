@@ -5,7 +5,7 @@ import type { Config } from 'tailwindcss';
 import tailwind from 'tailwindcss';
 
 import plugin from '../src';
-import type { TailwindRadixColorsOptions } from '../src/options';
+import type { TailwindRadixOptions } from '../src/options';
 
 async function run({
 	config = {},
@@ -14,13 +14,13 @@ async function run({
 }: {
 	config?: Omit<Config, 'content'>;
 	content: string;
-	options?: TailwindRadixColorsOptions;
+	options?: TailwindRadixOptions;
 }) {
 	const configWithPlugin = {
 		...config,
 		content: [{ raw: content }],
 		plugins: [plugin(options)],
-	};
+	} satisfies Config;
 
 	const result = await postcss(tailwind(configWithPlugin)).process('@tailwind utilities; @tailwind components;', {
 		from: undefined,
@@ -37,16 +37,16 @@ test('Given no option, both utility and semantic classes are generated', async (
 	const expected = `
     .bg-slate-1 {
       --tw-bg-opacity: 1;
-      background-color: rgb(252 252 253 / var(--tw-bg-opacity));
+      background-color: rgb(252 252 253 / var(--tw-bg-opacity, 1));
     }
     .bg-slate-app {
       --tw-bg-opacity: 1;
-      background-color: rgb(252 252 253 / var(--tw-bg-opacity));
+      background-color: rgb(252 252 253 / var(--tw-bg-opacity, 1));
     }
     @media (prefers-color-scheme: dark) {
       .bg-slate-app {
         --tw-bg-opacity: 1;
-        background-color: rgb(17 17 19 / var(--tw-bg-opacity));
+        background-color: rgb(17 17 19 / var(--tw-bg-opacity, 1));
       }
     }
   `;
@@ -62,13 +62,15 @@ test('Given option `disableSemantics`, semantic classes are not generated', asyn
 	const expected = `
     .bg-slate-1 {
       --tw-bg-opacity: 1;
-      background-color: rgb(252 252 253 / var(--tw-bg-opacity))
+      background-color: rgb(252 252 253 / var(--tw-bg-opacity, 1))
     }
   `;
 
 	const result = await run({
 		content: 'bg-slate-1 bg-slate-app',
-		options: { disableSemantics: true },
+		options: {
+			colors: { disableSemantics: true },
+		},
 	});
 
 	expect(await format(result)).toEqual(await format(expected));
@@ -78,13 +80,15 @@ test('Given option `include`, only specified colors are generated', async () => 
 	const expected = `
     .bg-slate-1 {
       --tw-bg-opacity: 1;
-      background-color: rgb(252 252 253 / var(--tw-bg-opacity));
+      background-color: rgb(252 252 253 / var(--tw-bg-opacity, 1));
     }
   `;
 
 	const result = await run({
 		content: 'bg-slate-1 bg-blue-1',
-		options: { include: ['slate'] },
+		options: {
+			colors: { include: ['slate'] },
+		},
 	});
 
 	expect(await format(result)).toEqual(await format(expected));
@@ -95,7 +99,9 @@ test('Given option `exclude`, specified colors are not generated', async () => {
 
 	const result = await run({
 		content: 'bg-slate-1',
-		options: { exclude: ['slate'] },
+		options: {
+			colors: { exclude: ['slate'] },
+		},
 	});
 
 	expect(await format(result)).toEqual(await format(expected));
@@ -105,13 +111,15 @@ test('Given option `priority=radix-only`, Tailwind colors are preserved', async 
 	const expected = `
     .bg-zinc-100 {
       --tw-bg-opacity: 1;
-      background-color: rgb(244 244 245 / var(--tw-bg-opacity));
+      background-color: rgb(244 244 245 / var(--tw-bg-opacity, 1));
     }
   `;
 
 	const result = await run({
 		content: 'bg-zinc-100',
-		options: { priority: 'radix-first' },
+		options: {
+			colors: { priority: 'radix-first' },
+		},
 	});
 
 	expect(await format(result)).toEqual(await format(expected));
@@ -121,13 +129,15 @@ test('Given option `priority=tailwind-first`, Tailwind colors take precedence', 
 	const expected = `
     .bg-red-100 {
       --tw-bg-opacity: 1;
-      background-color: rgb(254 226 226 / var(--tw-bg-opacity));
+      background-color: rgb(254 226 226 / var(--tw-bg-opacity, 1));
     }
   `;
 
 	const result = await run({
 		content: 'bg-red-100',
-		options: { priority: 'tailwind-first' },
+		options: {
+			colors: { priority: 'tailwind-first' },
+		},
 	});
 
 	expect(await format(result)).toEqual(await format(expected));
@@ -137,21 +147,23 @@ test('Given option `aliases`, conflicted color names are both preserved', async 
 	const expected = `
     .bg-red-700 {
       --tw-bg-opacity: 1;
-      background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+      background-color: rgb(185 28 28 / var(--tw-bg-opacity, 1));
     }
     .bg-sun-9 {
       --tw-bg-opacity: 1;
-      background-color: rgb(229 72 77 / var(--tw-bg-opacity));
+      background-color: rgb(229 72 77 / var(--tw-bg-opacity, 1));
     }
   `;
 
 	const result = await run({
 		content: 'bg-sun-9 bg-red-700',
 		options: {
-			aliases: {
-				red: 'sun',
+			colors: {
+				aliases: {
+					red: 'sun',
+				},
+				priority: 'radix-first',
 			},
-			priority: 'radix-first',
 		},
 	});
 
@@ -162,11 +174,11 @@ test('Utility classes are generated for custom colors', async () => {
 	const expected = `
     .bg-custom1 {
       --tw-bg-opacity: 1;
-      background-color: rgb(18 52 86 / var(--tw-bg-opacity));
+      background-color: rgb(18 52 86 / var(--tw-bg-opacity, 1));
     }
     .bg-custom2-1 {
       --tw-bg-opacity: 1;
-      background-color: rgb(101 67 33 / var(--tw-bg-opacity));
+      background-color: rgb(101 67 33 / var(--tw-bg-opacity, 1));
     }
   `;
 

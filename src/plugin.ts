@@ -2,7 +2,7 @@ import type { CSSRuleObject, PluginAPI, PluginCreator, PrefixConfig } from 'tail
 
 import type { Color, ColorName, Palette } from './colors';
 import { buildColorName, parseColorName } from './colors';
-import type { TailwindRadixColorsOptions } from './options';
+import type { TailwindRadixOptions } from './options';
 
 /**
  * Generate semantic classes, via Tailwind's `addComponents` API.
@@ -30,6 +30,7 @@ function generateSemanticClasses(api: PluginAPI) {
 		const shouldApplyForeground = foregroundColor && hasAllScales(foregroundColor);
 
 		api.addComponents({
+			[`.accent-${colorName}`]: apply(`accent-${colorName}-9`, `${prefix}dark:accent-${darkColorName}-9`),
 			[`.bg-${colorName}-action`]: apply(
 				`bg-${colorName}-4`,
 				`hover:bg-${colorName}-5`,
@@ -76,6 +77,14 @@ function generateSemanticClasses(api: PluginAPI) {
 				`hover:divide-${colorName}-8`,
 				`${prefix}dark:divide-${darkColorName}-7`,
 				`${prefix}dark:hover:divide-${darkColorName}-8`
+			),
+			[`.ring-${colorName}`]: apply(`ring-${colorName}-7`, `dark:ring-${darkColorName}-7`),
+			[`.ring-offset-${colorName}`]: apply(`ring-offset-${colorName}-1`, `dark:ring-offset-${darkColorName}-1`),
+			[`.selection-${colorName}`]: apply(
+				`selection:bg-${colorName}-9`,
+				`selection:text-${darkColorName}-12`,
+				`${prefix}dark:selection:bg-${darkColorName}-9`,
+				`${prefix}dark:selection:bg-${colorName}-12`
 			),
 			[`.text-${colorName}-dim`]: apply(`text-${colorName}-11`, `${prefix}dark:text-${darkColorName}-11`),
 			[`.text-${colorName}-normal`]: apply(`text-${colorName}-12`, `${prefix}dark:text-${darkColorName}-12`),
@@ -219,10 +228,8 @@ function apply(...classes: string[]) {
  *
  * @see https://tailwindcss.com/docs/plugins
  */
-export default function createPlugin(options: TailwindRadixColorsOptions = {}): PluginCreator {
-	const { disableSemantics } = options;
-
-	if (disableSemantics) {
+export default function createPlugin(options: TailwindRadixOptions = {}): PluginCreator {
+	if (options.colors === false || options.colors?.disableSemantics) {
 		return () => {
 			/*
 			 * Do nothing, since the only purpose of the plugin part is to generate

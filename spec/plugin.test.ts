@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test';
 import type { Config, CSSRuleObject } from 'tailwindcss/types/config';
 
-import type { TailwindRadixColorsOptions } from '../src/options';
+import type { TailwindRadixOptions } from '../src/options';
 import createPlugin from '../src/plugin';
 
 function mockColor(colorName: string) {
@@ -33,7 +33,7 @@ function run({
 	options = {},
 }: {
 	config?: Omit<Config, 'content'>;
-	options?: TailwindRadixColorsOptions;
+	options?: TailwindRadixOptions;
 } = {}) {
 	const registry: CSSRuleObject[] = [];
 
@@ -71,6 +71,9 @@ test('Given no option, All semantic classes are generated', () => {
 	const registry = run();
 	expect(registry).toEqual([
 		{
+			'.accent-slate': {
+				'@apply accent-slate-9 dark:accent-slate-dark-9': {},
+			},
 			'.bg-slate-action': {
 				'@apply bg-slate-4 hover:bg-slate-5 active:bg-slate-6 dark:bg-slate-dark-4 dark:hover:bg-slate-dark-5 dark:active:bg-slate-dark-6':
 					{},
@@ -107,6 +110,16 @@ test('Given no option, All semantic classes are generated', () => {
 				'@apply divide-slate-7 hover:divide-slate-8 dark:divide-slate-dark-7 dark:hover:divide-slate-dark-8':
 					{},
 			},
+			'.ring-offset-slate': {
+				'@apply ring-offset-slate-1 dark:ring-offset-slate-dark-1': {},
+			},
+			'.ring-slate': {
+				'@apply ring-slate-7 dark:ring-slate-dark-7': {},
+			},
+			'.selection-slate': {
+				'@apply selection:bg-slate-9 selection:text-slate-dark-12 dark:selection:bg-slate-dark-9 dark:selection:bg-slate-12':
+					{},
+			},
 			'.text-slate-dim': {
 				'@apply text-slate-11 dark:text-slate-dark-11': {},
 			},
@@ -118,7 +131,11 @@ test('Given no option, All semantic classes are generated', () => {
 });
 
 test('Given option `disableSemantics`, no semantic classes are generated', () => {
-	const registry = run({ options: { disableSemantics: true } });
+	const registry = run({
+		options: {
+			colors: { disableSemantics: true },
+		},
+	});
 	expect(registry).toEqual([]);
 });
 
@@ -126,6 +143,9 @@ test('Prefix are respected', () => {
 	const registry = run({ config: { prefix: 'tw-' } });
 	expect(registry).toEqual([
 		{
+			'.accent-slate': {
+				'@apply accent-slate-9 tw-dark:accent-slate-dark-9': {},
+			},
 			'.bg-slate-action': {
 				'@apply bg-slate-4 hover:bg-slate-5 active:bg-slate-6 tw-dark:bg-slate-dark-4 tw-dark:hover:bg-slate-dark-5 tw-dark:active:bg-slate-dark-6':
 					{},
@@ -160,6 +180,17 @@ test('Prefix are respected', () => {
 			},
 			'.divide-slate-normal': {
 				'@apply divide-slate-7 hover:divide-slate-8 tw-dark:divide-slate-dark-7 tw-dark:hover:divide-slate-dark-8':
+					{},
+			},
+
+			'.ring-offset-slate': {
+				'@apply ring-offset-slate-1 dark:ring-offset-slate-dark-1': {},
+			},
+			'.ring-slate': {
+				'@apply ring-slate-7 dark:ring-slate-dark-7': {},
+			},
+			'.selection-slate': {
+				'@apply selection:bg-slate-9 selection:text-slate-dark-12 tw-dark:selection:bg-slate-dark-9 tw-dark:selection:bg-slate-12':
 					{},
 			},
 			'.text-slate-dim': {
@@ -223,6 +254,9 @@ test('Custom colors are respected, if it has 12 scales and a dark variant', () =
 	});
 	expect(registry).toEqual([
 		{
+			'.accent-custom': {
+				'@apply accent-custom-9 dark:accent-custom-dark-9': {},
+			},
 			'.bg-custom-action': {
 				'@apply bg-custom-4 hover:bg-custom-5 active:bg-custom-6 dark:bg-custom-dark-4 dark:hover:bg-custom-dark-5 dark:active:bg-custom-dark-6':
 					{},
@@ -256,6 +290,16 @@ test('Custom colors are respected, if it has 12 scales and a dark variant', () =
 			},
 			'.divide-custom-normal': {
 				'@apply divide-custom-7 hover:divide-custom-8 dark:divide-custom-dark-7 dark:hover:divide-custom-dark-8':
+					{},
+			},
+			'.ring-custom': {
+				'@apply ring-custom-7 dark:ring-custom-dark-7': {},
+			},
+			'.ring-offset-custom': {
+				'@apply ring-offset-custom-1 dark:ring-offset-custom-dark-1': {},
+			},
+			'.selection-custom': {
+				'@apply selection:bg-custom-9 selection:text-custom-dark-12 dark:selection:bg-custom-dark-9 dark:selection:bg-custom-12':
 					{},
 			},
 			'.text-custom-dim': {
